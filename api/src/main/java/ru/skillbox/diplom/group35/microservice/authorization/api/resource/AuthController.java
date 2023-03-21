@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.CaptchaDto;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.RegistrationDto;
 
 /**
@@ -16,7 +17,7 @@ import ru.skillbox.diplom.group35.microservice.authorization.api.dto.Registratio
 public interface AuthController {
 
     @PostMapping("/register")
-    ResponseEntity<RegistrationDto> register();
+    void register(RegistrationDto registrationDto);
 
     @PostMapping("/password/recovery")
     ResponseEntity<RegistrationDto> passwordRecovery();
@@ -31,5 +32,5 @@ public interface AuthController {
     ResponseEntity<RegistrationDto> logout();
 
     @GetMapping("/captcha")
-    ResponseEntity<RegistrationDto> captcha();
+    ResponseEntity<CaptchaDto> captcha();
 }

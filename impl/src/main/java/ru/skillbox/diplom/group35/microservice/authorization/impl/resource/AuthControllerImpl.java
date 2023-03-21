@@ -1,8 +1,10 @@
 package ru.skillbox.diplom.group35.microservice.authorization.impl.resource;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.CaptchaDto;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.RegistrationDto;
 import ru.skillbox.diplom.group35.microservice.authorization.api.resource.AuthController;
 import ru.skillbox.diplom.group35.microservice.authorization.impl.service.CaptchaService;
@@ -13,22 +15,18 @@ import ru.skillbox.diplom.group35.microservice.authorization.impl.service.Regist
  *
  * @author Mikhail Chechetkin
  */
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class AuthControllerImpl implements AuthController {
 
     private final RegistrationService registrationService;
-    @Override
-    public ResponseEntity<RegistrationDto> register() {
-        RegistrationDto registrationDto = new RegistrationDto();
 
-        if (!(new CaptchaService().captchaValidation(registrationDto))) {
-            return ResponseEntity.badRequest().body(null);
-        }
-        else {
-            return registrationService.create(registrationDto);
-        }
+    private final CaptchaService captchaService;
+    @Override
+    public void register(@RequestBody RegistrationDto registrationDto) {
+        log.info("Registration new account, Email:{}", registrationDto.getEmail());
+        registrationService.create(registrationDto);
     }
 
     @Override
@@ -53,7 +51,7 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
-    public ResponseEntity<RegistrationDto> captcha() {
-        return null;
+    public ResponseEntity<CaptchaDto> captcha() {
+        return ResponseEntity.ok(captchaService.getCaptcha());
     }
 }

@@ -18,6 +18,10 @@
         <dropNotNullConstraint tableName="account" columnName="is_online"></dropNotNullConstraint>
         <dropNotNullConstraint tableName="account" columnName="is_blocked"></dropNotNullConstraint>
     </changeSet>
+
+    <changeSet id="change_user_email_constraints" author="Mikhail Chechetkin">
+        <addUniqueConstraint tableName="user" columnNames="email"/>
+    </changeSet>
     <!-- END TABLES -->
 
     <!-- INDEXES -->

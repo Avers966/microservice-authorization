@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     private String password;
 
     @Pattern(regexp = "^[_A-Za-z0-9-+]+ (.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)* (.[A-Za-z]{2,})$")
-    @Column(name = "email", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "email", columnDefinition = "VARCHAR(255)", nullable = false, unique = true)
     private String email;
 
     @Column(name = "created_on", nullable = false)

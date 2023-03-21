@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 @Entity
 @NoArgsConstructor
 public class Account extends User {
-    @Column(name = "phone", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "phone", columnDefinition = "VARCHAR(255)")
     private String phone;
 
     @Column(name = "photo", columnDefinition = "VARCHAR(255)")
@@ -26,31 +26,31 @@ public class Account extends User {
     @Column(name = "about", columnDefinition = "TEXT")
     private String about;
 
-    @Column(name = "city", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "city", columnDefinition = "VARCHAR(255)")
     private String city;
 
-    @Column(name = "country", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "country", columnDefinition = "VARCHAR(255)")
     private String country;
 
-    @Column(name = "status_code", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "status_code", columnDefinition = "VARCHAR(255)")
     private StatusCode statusCode;
 
-    @Column(name = "reg_date", nullable = false)
+    @Column(name = "reg_date")
     private ZonedDateTime regDate;
 
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date")
     private ZonedDateTime birthDate;
 
-    @Column(name = "message_permission", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "message_permission", columnDefinition = "VARCHAR(255)")
     private String messagePermission;
 
-    @Column(name = "last_online_time", nullable = false)
+    @Column(name = "last_online_time")
     private ZonedDateTime lastOnlineTime;
 
-    @Column(name = "is_online", nullable = false)
+    @Column(name = "is_online")
     private Boolean isOnline;
 
-    @Column(name = "is_blocked", nullable = false)
+    @Column(name = "is_blocked")
     private Boolean isBlocked;
 
     @Column(name = "photo_id", columnDefinition = "VARCHAR(255)")

@@ -14,5 +14,5 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends BaseRepository<Account> {
-    List<Account> findAllByEmail(String email);
+    boolean existsByEmail(String email);
 }

@@ -1,0 +1,39 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- TABLES -->
+
+    <changeSet id="create-table-captcha" author="Mikhail Chechetkin">
+        <createTable tableName="captcha">
+            <column name="id" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="is_deleted" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+<!--            <column name="code" type="varchar(255)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+            <column name="secret" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <!-- END TABLES -->
+
+    <!-- INDEXES -->
+    <!-- END INDEXES -->
+
+    <!-- FOREIGN KEYS -->
+    <!-- END FOREIGN KEYS -->
+
+    <!-- SEQUENCES -->
+    <!-- EDN SEQUENCES -->
+
+</databaseChangeLog>
