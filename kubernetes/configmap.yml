@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: microservice-authorization
+data:
+  application.yml: |-
+
+    spring:
+      boot:
+        admin:
+          client:
+            enabled: true
+            instance:
+              service-url: http://microservice-authorization:8080
+
+      liquibase:
+        enabled: false
+        drop-first: false
+        change-log: classpath:database-authorization-changelog.xml
+
+      datasource:
+        url: jdbc:postgresql://postgres:5432/social
+        username: ${DATASOURCE_USERNAME}
+        password: ${DATASOURCE_PASSWORD}
+        driverClassName: org.postgresql.Driver
+        hikari:
+          minimum-idle: 10
+          maximum-pool-size: 50
+
+      jpa:
+        show-sql: true
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL10Dialect
+            format_sql: true
+            default_schema: authorization
+        open-in-view: false
+

@@ -15,6 +15,14 @@
     <description>microservice authorization api</description>
     <artifactId>microservice-authorization-api</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>ru.skillbox.diplom.group35</groupId>
+            <artifactId>microservice-authorization-domain</artifactId>
+            <version>${revision}${sha1}${changelist}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>

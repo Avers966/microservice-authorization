@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.authorization.domain.model;
+package ru.skillbox.diplom.group35.microservice.authorization.api.dto;
 
 /**
  * StatusCode

@@ -1,6 +1,6 @@
 package ru.skillbox.diplom.group35.microservice.authorization.api.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * NewPasswordDto
@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
  * @author Mikhail Chechetkin
  */
 
-@AllArgsConstructor
+@Data
 public class NewPasswordDto {
     private String password;
 }

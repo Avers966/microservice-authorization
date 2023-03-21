@@ -1,11 +1,12 @@
 package ru.skillbox.diplom.group35.microservice.authorization.impl.resource;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.RegistrationDto;
+import ru.skillbox.diplom.group35.microservice.authorization.api.resource.AuthController;
+import ru.skillbox.diplom.group35.microservice.authorization.impl.service.CaptchaService;
+import ru.skillbox.diplom.group35.microservice.authorization.impl.service.RegistrationService;
 
 /**
  * AuthorizationController
@@ -14,38 +15,45 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
+public class AuthControllerImpl implements AuthController {
 
-public class AuthControllerImpl {
+    private final RegistrationService registrationService;
+    @Override
+    public ResponseEntity<RegistrationDto> register() {
+        RegistrationDto registrationDto = new RegistrationDto();
 
-    @PostMapping("/api/v1/auth/register")
-    public ResponseEntity<Object> register() {
+        if (!(new CaptchaService().captchaValidation(registrationDto))) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        else {
+            return registrationService.create(registrationDto);
+        }
+    }
+
+    @Override
+    public ResponseEntity<RegistrationDto> passwordRecovery() {
         return null;
     }
 
-    @PostMapping("/api/v1/auth/password/recovery")
-    public ResponseEntity<Object> passwordRecovery() {
-        return null;
-    }
-
-    @PostMapping("/api/v1/auth/password/recovery/{linkId}")
-    public ResponseEntity<Object> newPassword(
+    @Override
+    public ResponseEntity<RegistrationDto> newPassword(
             @RequestParam(name = "linkId", defaultValue = "") String linkId) {
         return null;
     }
 
-    @PostMapping("/api/v1/auth/login")
-    public ResponseEntity<Object> login() {
+    @Override
+    public ResponseEntity<RegistrationDto> login() {
         return null;
     }
 
-    @PostMapping("/api/v1/auth/logout")
-    public ResponseEntity<Object> logout() {
+    @Override
+    public ResponseEntity<RegistrationDto> logout() {
         return null;
     }
 
-    @GetMapping("/api/v1/auth/captcha")
-    public ResponseEntity<Object> captcha() {
+    @Override
+    public ResponseEntity<RegistrationDto> captcha() {
         return null;
     }
 }

@@ -10,15 +10,15 @@
 <!--            <column name="id" type="uuid">-->
 <!--                <constraints nullable="false" unique="true"/>-->
 <!--            </column>-->
-<!--            <column name="is_deleted" type="boolean">-->
-<!--                <constraints nullable="false"/>-->
-<!--            </column>-->
 <!--            <column name="phone" type="varchar(255)">-->
 <!--                <constraints nullable="false"/>-->
 <!--            </column>-->
 <!--            <column name="photo" type="varchar(255)"/>-->
 <!--            <column name="about" type="text"/>-->
 <!--            <column name="city" type="varchar(255)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="country" type="varchar(255)">-->
 <!--                <constraints nullable="false"/>-->
 <!--            </column>-->
 <!--            <column name="status_code" type="varchar(255)">-->
@@ -50,7 +50,7 @@
 <!--    <changeSet id="create-table-user" author="Georgii Vinogradov">-->
 <!--        <createTable tableName="user">-->
 <!--            <column name="id" type="uuid">-->
-<!--                <constraints nullable="false" unique="true" />-->
+<!--                <constraints nullable="false" unique="true"/>-->
 <!--            </column>-->
 <!--            <column name="is_deleted" type="boolean">-->
 <!--                <constraints nullable="false"/>-->

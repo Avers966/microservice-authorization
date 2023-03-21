@@ -1,6 +1,6 @@
 package ru.skillbox.diplom.group35.microservice.authorization.api.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import ru.skillbox.diplom.group35.library.core.dto.base.BaseDto;
 
 /**
@@ -9,7 +9,7 @@ import ru.skillbox.diplom.group35.library.core.dto.base.BaseDto;
  * @author Mikhail Chechetkin
  */
 
-@AllArgsConstructor
+@Data
 public class AuthenticateResponseDto extends BaseDto {
     private String accessToken;
     private String refreshToken;
