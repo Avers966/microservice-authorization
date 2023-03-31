@@ -4,6 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.AuthenticateDto;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.AuthenticateResponseDto;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.CaptchaDto;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.RegistrationDto;
 
@@ -26,7 +28,7 @@ public interface AuthController {
     ResponseEntity<RegistrationDto> newPassword(String linkId);
 
     @PostMapping("/login")
-    ResponseEntity<RegistrationDto> login();
+    ResponseEntity<AuthenticateResponseDto> login(AuthenticateDto authenticateDto);
 
     @PostMapping("/logout")
     ResponseEntity<RegistrationDto> logout();

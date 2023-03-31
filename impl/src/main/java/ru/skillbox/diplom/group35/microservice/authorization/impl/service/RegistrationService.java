@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.skillbox.diplom.group35.library.core.annotation.JwtProvider;
+import ru.skillbox.diplom.group35.library.core.security.config.SecurityConfig;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.RegistrationDto;
 import ru.skillbox.diplom.group35.microservice.authorization.domain.model.Account;
 import ru.skillbox.diplom.group35.microservice.authorization.impl.mapper.RegistrationMapper;
@@ -28,10 +30,10 @@ public class RegistrationService {
 
     @Autowired
     private CaptchaService captchaService;
-    @Bean
-    public BCryptPasswordEncoder encoder() { //TODO убери бин в конфигурацию
-        return new BCryptPasswordEncoder();
-    }
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
 //    public ResponseEntity<RegistrationDto> create(RegistrationDto dto) {
     public void create(RegistrationDto dto) {
@@ -42,7 +44,7 @@ public class RegistrationService {
 
         if(dto.getPassword1().equals(dto.getPassword2())
         && captchaService.captchaValidation(dto)) {
-            account.setPassword(encoder().encode(account.getPassword()));
+            account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
             accountRepository.save(account);
         }
     }

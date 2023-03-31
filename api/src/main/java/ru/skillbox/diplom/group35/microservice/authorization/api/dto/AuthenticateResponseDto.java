@@ -10,7 +10,7 @@ import ru.skillbox.diplom.group35.library.core.dto.base.BaseDto;
  */
 
 @Data
-public class AuthenticateResponseDto extends BaseDto {
+public class AuthenticateResponseDto{
     private String accessToken;
     private String refreshToken;
 }
