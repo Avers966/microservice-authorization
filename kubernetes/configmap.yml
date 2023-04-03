@@ -14,14 +14,14 @@ data:
               service-url: http://microservice-authorization:8080
 
       liquibase:
-        enabled: false
+        enabled: true
         drop-first: false
         change-log: classpath:database-authorization-changelog.xml
 
       datasource:
-        url: jdbc:postgresql://postgres:5432/social
-        username: ${DATASOURCE_USERNAME}
-        password: ${DATASOURCE_PASSWORD}
+        url: jdbc:postgresql://${DB_HOST}:5432/${DB_DATABASE}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
         driverClassName: org.postgresql.Driver
         hikari:
           minimum-idle: 10

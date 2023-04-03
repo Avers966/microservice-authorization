@@ -62,6 +62,7 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     public ResponseEntity<CaptchaDto> captcha() {
+        log.info("Getting captcha");
         return ResponseEntity.ok(captchaService.getCaptcha());
     }
 }

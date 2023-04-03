@@ -31,6 +31,10 @@ public class CaptchaService {
     private static final int RIGHT_LIMIT = 57;
     private static final int IMAGE_WIDTH = 150;
     private static final int IMAGE_HEIGHT = 75;
+    private static final int FONT_SIZE = 54;
+    private static final String FONT_NAME = "TimesNewRoman";
+
+
     private static final String IMAGE_FORMAT = "png";
 
     private final CaptchaRepository captchaRepository;
@@ -52,17 +56,16 @@ public class CaptchaService {
         BufferedImage captchaImage = new BufferedImage(IMAGE_WIDTH, IMAGE_HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
 
         Graphics2D g2D = captchaImage.createGraphics();
-        Font font = new Font("TimesNewRoman", Font.PLAIN, 66);
+        Font font = new Font(FONT_NAME, Font.PLAIN, FONT_SIZE);
         g2D.setFont(font);
-        FontMetrics fontMetrics = g2D.getFontMetrics();
 
         g2D.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT);
         g2D.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_DEFAULT);
         g2D.setColor(Color.WHITE);
-        g2D.drawString(captchaString, 0, fontMetrics.getAscent());
+        g2D.drawString(captchaString, 0, g2D.getFontMetrics().getAscent());
         g2D.setStroke(new BasicStroke(4));
-        g2D.drawLine(IMAGE_WIDTH, IMAGE_HEIGHT / 2, 0, IMAGE_HEIGHT / 2);
-        g2D.drawLine(IMAGE_WIDTH, 3 * IMAGE_HEIGHT / 4, 0, 3 * IMAGE_HEIGHT / 4);
+        g2D.drawLine(IMAGE_WIDTH - 20, IMAGE_HEIGHT / 3, 0, IMAGE_HEIGHT / 3);
+        g2D.drawLine(IMAGE_WIDTH - 20, IMAGE_HEIGHT / 2, 0, IMAGE_HEIGHT / 2);
         g2D.dispose();
 
         captcha.setSecret(captchaString);

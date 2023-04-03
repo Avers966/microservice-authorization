@@ -43,7 +43,8 @@ public class RegistrationService {
         account.setUpdatedOn(ZonedDateTime.now());
 
         if(dto.getPassword1().equals(dto.getPassword2())
-        && captchaService.captchaValidation(dto)) {
+        && captchaService.captchaValidation(dto)
+        ){
             account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
             accountRepository.save(account);
         }

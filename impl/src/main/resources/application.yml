@@ -3,14 +3,14 @@ server:
 
 spring:
   liquibase:
-    enabled: false
+    enabled: true
     drop-first: false
     change-log: classpath:database-authorization-changelog.xml
 
   datasource:
-    url: jdbc:postgresql://postgres:5432/skillbox
-    username: authorization
-    password: authorization
+    url: jdbc:postgresql://${DB_HOST:postgres}:5432/skillbox
+    username: ${DB_USERNAME:account}
+    password: ${DB_PASSWORD:account}
     driverClassName: org.postgresql.Driver
 
   jpa:
@@ -21,5 +21,5 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         format_sql: true
-        default_schema: authorization
+        default_schema: ${DB_SCHEMA:account}
     open-in-view: false
