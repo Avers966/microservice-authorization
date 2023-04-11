@@ -2,17 +2,24 @@ spring:
   application:
     name: microservice-authorization
 
+  config:
+    import: kubernetes
+
   cloud:
     kubernetes:
       secrets:
         sources:
           - name: microservice-authorization
+            namespace: skillbox-alpha
       config:
+        uri:
         sources:
-          - name: library-core
+          - namespace: skillbox-alpha
           - name: microservice-authorization
       reload:
         enabled: true
+        strategy: refresh # restart_context | shutdown
+        mode: event # polling
 
 management:
   endpoint:

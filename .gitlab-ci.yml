@@ -1,0 +1,50 @@
+image: maven:3.8.3-jdk-11
+
+stages:
+  - build
+  - docker_deploy
+  - deploy_prod
+
+build:
+  stage: build
+  only:
+    - ci-test
+  script:
+    - mvn -s maven-settings.xml clean package
+  artifacts:
+    paths:
+      - ./impl/target
+
+docker-deploy:
+  image: docker:latest
+  stage: docker_deploy
+  only:
+    - ci-test
+  variables:
+    TAG: latest
+  before_script:
+    - docker logout
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$TAG .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+
+deploy_prod:
+  stage: deploy_prod
+  only:
+    - ci-test
+  except:
+    - tags
+  before_script:
+    - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $PROD_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh $PROD_USER@$PROD_HOST "kubectl rollout restart -n $NAMESPACE deployment $DEPLOYMENT_NAME"
+
+
+
