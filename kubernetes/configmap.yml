@@ -35,6 +35,6 @@ data:
           hibernate:
             dialect: org.hibernate.dialect.PostgreSQL10Dialect
             format_sql: true
-            default_schema: authorization
+            default_schema: ${DB_SCHEMA}
         open-in-view: false
 

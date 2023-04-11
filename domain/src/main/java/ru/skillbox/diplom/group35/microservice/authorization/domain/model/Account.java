@@ -55,7 +55,4 @@ public class Account extends User {
 
     @Column(name = "photo_id", columnDefinition = "VARCHAR(255)")
     private String photoId;
-
-    @Column(name = "photo_name", columnDefinition = "VARCHAR(255)")
-    private String photoName;
 }

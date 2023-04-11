@@ -2,8 +2,8 @@ spring:
   application:
     name: microservice-authorization
 
-  config:
-    import: kubernetes
+#  config:
+#    import: kubernetes
 
   cloud:
     kubernetes:
