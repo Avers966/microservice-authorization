@@ -30,9 +30,6 @@ public interface AuthController {
     @PostMapping("/login")
     ResponseEntity<AuthenticateResponseDto> login(AuthenticateDto authenticateDto);
 
-    @PostMapping("/logout")
-    ResponseEntity<RegistrationDto> logout();
-
     @GetMapping("/captcha")
     ResponseEntity<CaptchaDto> captcha();
 }

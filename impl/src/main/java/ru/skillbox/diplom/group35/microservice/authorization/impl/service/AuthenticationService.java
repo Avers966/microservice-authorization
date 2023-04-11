@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.skillbox.diplom.group35.library.core.annotation.JwtProvider;
+import ru.skillbox.diplom.group35.library.core.exception.UnauthorizedException;
 import ru.skillbox.diplom.group35.library.core.security.config.SecurityConfig;
 import ru.skillbox.diplom.group35.library.core.security.jwt.JwtTokenProvider;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.AuthenticateDto;
@@ -25,7 +26,7 @@ public class AuthenticationService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    public AuthenticateResponseDto getAuthenticationResponse(AuthenticateDto authenticateDto) {
+    public AuthenticateResponseDto getAuthenticationResponse(AuthenticateDto authenticateDto) throws UnauthorizedException {
         AuthenticateResponseDto authenticateResponseDto = new AuthenticateResponseDto();
         Account accountFromDb = accountRepository.findByEmail(authenticateDto.getEmail());
         if (accountFromDb != null
@@ -34,6 +35,10 @@ public class AuthenticationService {
             authenticateResponseDto.setAccessToken(jwtToken);
             authenticateResponseDto.setRefreshToken(jwtToken);
         }
+        else {
+            throw new UnauthorizedException("Incorrect email or password");
+        }
+
         return authenticateResponseDto;
     }
 }
