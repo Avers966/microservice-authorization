@@ -4,13 +4,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.skillbox.diplom.group35.library.core.annotation.EnableExceptionHandler;
-import ru.skillbox.diplom.group35.microservice.authorization.api.dto.*;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.AuthenticateDto;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.AuthenticateResponseDto;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.CaptchaDto;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.NewPasswordDto;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.PasswordRecoveryDto;
+import ru.skillbox.diplom.group35.microservice.authorization.api.dto.RegistrationDto;
 import ru.skillbox.diplom.group35.microservice.authorization.api.resource.AuthController;
 import ru.skillbox.diplom.group35.microservice.authorization.impl.service.AuthenticationService;
 import ru.skillbox.diplom.group35.microservice.authorization.impl.service.CaptchaService;
+import ru.skillbox.diplom.group35.microservice.authorization.impl.service.RecoveryService;
 import ru.skillbox.diplom.group35.microservice.authorization.impl.service.RegistrationService;
 
 /**
@@ -25,10 +30,9 @@ import ru.skillbox.diplom.group35.microservice.authorization.impl.service.Regist
 public class AuthControllerImpl implements AuthController {
 
     private final RegistrationService registrationService;
-
     private final AuthenticationService authenticationService;
-
     private final CaptchaService captchaService;
+    private final RecoveryService recoveryService;
 
     @Override
     public void register(@RequestBody RegistrationDto registrationDto) {
@@ -37,14 +41,17 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
-    public ResponseEntity<RegistrationDto> passwordRecovery() {
-        return null;
+    public ResponseEntity<RegistrationDto> getPasswordRecoveryMail(PasswordRecoveryDto passwordRecoveryDto) {
+        log.info("Received request for password recovery email : {}", passwordRecoveryDto);
+        recoveryService.getPasswordRecoveryMail(passwordRecoveryDto);
+        return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<RegistrationDto> newPassword(
-            @RequestParam(name = "linkId", defaultValue = "") String linkId) {
-        return null;
+    public ResponseEntity<RegistrationDto> setNewPassword(String linkId, NewPasswordDto newPasswordDto) {
+        log.info("Received setting new password request with token: {}", linkId);
+        recoveryService.setNewPassword(linkId, newPasswordDto);
+        return ResponseEntity.ok().build();
     }
 
     @Override
