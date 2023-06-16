@@ -1,13 +1,18 @@
 package ru.skillbox.diplom.group35.microservice.authorization.impl.service;
 
+import java.nio.charset.StandardCharsets;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.PasswordResetTokenDto;
 
 /**
@@ -21,8 +26,10 @@ import ru.skillbox.diplom.group35.microservice.authorization.api.dto.PasswordRes
 @RequiredArgsConstructor
 public class RecoveryMailService {
 
-  private static final String RECOVERY_SUBJECT = "Восстановление пароля";
+  private static final String MESSAGE_SUBJECT = "Восстановление пароля";
+  private static final String TEMPLATE = "email-template";
   private final JavaMailSender mailSender;
+  private final SpringTemplateEngine springTemplateEngine;
   @Value("${spring.mail.username}")
   private String from;
   @Value("${app.recovery.mail.host}")
@@ -30,28 +37,34 @@ public class RecoveryMailService {
 
   public void sendRecoveryEmail(PasswordResetTokenDto resetTokenDto) {
     log.info("Creating mail message from: {}", resetTokenDto);
-    SimpleMailMessage mailMessage = new SimpleMailMessage();
-    mailMessage.setFrom(from);
-    mailMessage.setTo(resetTokenDto.getEmail());
-    mailMessage.setSubject(RECOVERY_SUBJECT);
-    mailMessage.setText(provideText(
-        resetTokenDto.getFirstName(),
-        resetTokenDto.getId().toString(),
-        resetTokenDto.getExpiration()));
-    sendMailAsync(mailMessage);
+    MimeMessage message = mailSender.createMimeMessage();
+    try {
+      MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+          MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+      Context context = getEmailContext(resetTokenDto);
+      String emailContent = springTemplateEngine.process(TEMPLATE, context);
+      messageHelper.setFrom(from);
+      messageHelper.setTo(resetTokenDto.getEmail());
+      messageHelper.setSubject(MESSAGE_SUBJECT);
+      messageHelper.setText(emailContent, true);
+      sendEmailAsync(message);
+    } catch (MessagingException e) {
+      e.printStackTrace();
+    }
   }
 
   @Async
-  protected void sendMailAsync(SimpleMailMessage mailMessage) {
-    log.info("Sending mail message: {}", mailMessage);
-    mailSender.send(mailMessage);
+  protected void sendEmailAsync(MimeMessage message) {
+    log.info("Sending mail message: {}", message);
+    mailSender.send(message);
   }
 
-  private String provideText(String firstName, String linkId, int expiration) {
-    String s = System.lineSeparator();
-    return "Здравствуйте, " + firstName + "!"
-        + s + s + "Чтобы придумать новый пароль, перейдите по этой ссылке:"
-        + s + "http://" + host + "/change-password/" + linkId
-        + s + "Ссылка действительна в течении " + expiration + " минут.";
+  private Context getEmailContext(PasswordResetTokenDto resetTokenDto) {
+    String recoveryUrl = "http://" + host + "/change-password/" + resetTokenDto.getId();
+    Context context = new Context();
+    context.setVariable("firstName", resetTokenDto.getFirstName());
+    context.setVariable("recoveryUrl", recoveryUrl);
+    context.setVariable("expiration", resetTokenDto.getExpiration());
+    return context;
   }
 }
