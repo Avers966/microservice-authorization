@@ -1,7 +1,24 @@
 server:
   port: 8080
 
+app:
+  recovery:
+    mail:
+      host: 82.202.214.42
+    expiration-time: 10
+
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: sskillbox35@gmail.com
+    password: jpmcxfjgfdxcbqqk
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.enable: true
+    test-connection: false
+
   liquibase:
     enabled: true
     drop-first: false
@@ -24,6 +41,15 @@ spring:
         default_schema: ${DB_SCHEMA:account}
     open-in-view: false
 
+  cache:
+    type: simple
+  redis.host: redis
+  data:
+    redis:
+      repositories.enabled: false
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
 kafka:
   bootstrap-servers: 82.202.214.42:9094
   producer:
@@ -33,4 +59,3 @@ kafka:
     replication-factor: 1
     login: topic.login
     registration: topic.registration
-

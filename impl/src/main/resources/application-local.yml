@@ -1,7 +1,33 @@
 server:
   port: 8081
 
+app:
+  recovery:
+    mail:
+      host: localhost:8099
+    expiration-time: 10
+
 spring:
+#  mail:
+#    host: smtp.mail.ru
+#    port: 465
+#    username: sskillbox@mail.ru
+#    password: JwngsBe6iWxaXc4WjSwd
+#    properties.mail.smtp:
+#      auth: true
+#      starttls.enable: true
+#      ssl.enable: true
+#      ssl.trust: smtp.mail.ru
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: sskillbox35@gmail.com
+    password: jpmcxfjgfdxcbqqk
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.enable: true
+    test-connection: false
 
   security:
     user:
@@ -21,6 +47,15 @@ spring:
       password: authorization
       driverClassName: org.postgresql.Driver
 
+  cache:
+    type: simple
+  redis.host: redis
+  data:
+    redis:
+      repositories.enabled: false
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
   jpa:
     show-sql: true
     hibernate:
@@ -31,6 +66,10 @@ spring:
         format_sql: true
         default_schema: auth
     open-in-view: false
+
+logging:
+  level:
+    org.springframework: info
 
 kafka:
   bootstrap-servers: 82.202.214.42:9094
